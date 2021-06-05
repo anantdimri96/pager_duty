@@ -1,10 +1,11 @@
 module Api
   module V1
-    class DevelopersController < ApplicationController
+    class TeamsController < ApplicationController
 
       def create
-        developer = Developer.new(create_params)
-        if developer.save
+        # response = ::TeamsService::CreateService.new(create_params).call
+        team = Team.new(create_params)
+        if team.save
           render json: {status: "success"}, status: :ok
         else
           render json: {status: "failure", message: "Creation failed"}, status: :not_acceptable
@@ -16,15 +17,17 @@ module Api
 
       def create_params
         {
-            name: params[:name],
-            phone_number: params[:phone_number],
-            team_id: params[:team_id]
+            name: params[:name]
         }
       end
 
-      def developer_params
-        params.require(:developer).permit(:name,:phone_number,:team_id)
+      def team_params
+        params.require(:team).permit(:name)
       end
+
+      # def team_params
+      #   params.require(:transaction).permit(:type, :amount, :parent_id, :transaction_id)
+      # end
 
     end
   end
